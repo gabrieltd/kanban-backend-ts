@@ -1,0 +1,44 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id   String @id @default(uuid())
+  password String
+  email String  @unique
+  username String @unique
+  image String?
+  bio String?
+
+  boards Board[]
+}
+
+model Board{
+	id String @id @default(uuid())
+	title String
+	priority Int @default(9999)
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+	tasks Task[]
+	
+	userId String
+}
+
+model Task{
+	id String @id @default(uuid())
+	description String
+	priority Int @default(9999)
+	color String
+	board Board @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+	boardId String
+	userId String
+}
+
+
+
