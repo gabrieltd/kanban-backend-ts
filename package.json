@@ -4,6 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"start": "ts-node --transpile-only --files src/app.ts",
 		"build": "npx tsc",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "ts-node-dev --respawn --transpile-only --exit-child --watch --files src/app.ts"
