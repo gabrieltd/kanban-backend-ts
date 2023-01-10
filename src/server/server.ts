@@ -5,6 +5,7 @@ import profileRoutes from "../routes/profile.route";
 import boardRoutes from "../routes/board.route";
 import taskRoutes from "../routes/task.route";
 import cors from "cors";
+import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import errorHandler from "../middlewares/globalErrorHandler";
 import "express-async-errors";
@@ -36,6 +37,7 @@ class Server {
 		this.app.use(cors(corsOptions));
 		this.app.use(cookieParser());
 		this.app.use(express.json());
+		this.app.use(morgan("common"));
 	}
 
 	routes() {
