@@ -1,7 +1,7 @@
 export const corsOptions = {
 	origin: [
 		"http://localhost:4200",
-		"https://kanban-backend-t7oh.onrender.com",
+		"https://gabrieltd.github.io/kanban-frontend-angular",
 	],
 	credentials: true,
 	optionsSuccessStatus: 200,
