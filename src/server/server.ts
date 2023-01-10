@@ -10,6 +10,7 @@ import errorHandler from "../middlewares/globalErrorHandler";
 import "express-async-errors";
 import logger from "../utils/logger";
 import { checkDatabaseConnection } from "../utils/prisma";
+import { corsOptions } from "../lib/corsOptions";
 
 class Server {
 	private app: Application;
@@ -32,13 +33,7 @@ class Server {
 	}
 
 	middlewares() {
-		this.app.use(
-			cors({
-				origin: "http://localhost:4200",
-				credentials: true,
-				optionsSuccessStatus: 200,
-			})
-		);
+		this.app.use(cors(corsOptions));
 		this.app.use(cookieParser());
 		this.app.use(express.json());
 	}
