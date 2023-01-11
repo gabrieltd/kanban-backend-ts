@@ -1,7 +1,8 @@
 export const corsOptions = {
 	origin: [
-		"http://localhost:4200",
-		"https://gabrieltd.github.io/kanban-frontend-angular",
+		"https://kanban-frontend-angular.vercel.app",
+		"https://kanban-frontend-angular-dzaqaxcw3-gabrieltd.vercel.app",
+		"http://localhost:3000",
 	],
 	credentials: true,
 	optionsSuccessStatus: 200,
