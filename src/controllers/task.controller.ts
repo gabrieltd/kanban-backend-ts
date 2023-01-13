@@ -18,7 +18,7 @@ const getOne = async (req: Request, res: Response) => {
 		throw new UnauthorizedError(403, "Forbidden");
 	}
 
-	res.send(response);
+	res.json(response);
 };
 
 const getAll = async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ const getAll = async (req: Request, res: Response) => {
 
 	const response = await prisma.task.findMany({ where: { userId } });
 
-	res.send(response);
+	res.json(response);
 };
 
 const postOne = async (req: Request, res: Response) => {
@@ -47,7 +47,7 @@ const postOne = async (req: Request, res: Response) => {
 		data: { description, color, priority, boardId, userId },
 	});
 
-	res.send(response);
+	res.json(response);
 };
 
 const putOne = async (req: Request, res: Response) => {
@@ -72,7 +72,7 @@ const putOne = async (req: Request, res: Response) => {
 		data: { ...updatedTask },
 	});
 
-	res.send(response);
+	res.json(response);
 };
 
 const deleteOne = async (req: Request, res: Response) => {
@@ -91,7 +91,7 @@ const deleteOne = async (req: Request, res: Response) => {
 
 	const response = await prisma.task.delete({ where: { id: taskId } });
 
-	return res.send(response);
+	return res.json(response);
 };
 
 const batchUpdate = async (req: Request, res: Response) => {

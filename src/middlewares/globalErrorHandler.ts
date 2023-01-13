@@ -13,7 +13,7 @@ const errorHandler = (
 	const status: boolean = false;
 
 	if (err instanceof CustomError) {
-		return res.status(err.errorCode).send({
+		return res.status(err.errorCode).json({
 			status,
 			errors: err.serializeErrors(),
 		});
@@ -31,10 +31,10 @@ const errorHandler = (
 			};
 		});
 
-		return res.status(errCode).send({ status, errors: errFormat });
+		return res.status(errCode).json({ status, errors: errFormat });
 	}
 
-	res.status(500).send({
+	res.status(500).json({
 		status,
 		errors: [
 			{

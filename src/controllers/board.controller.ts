@@ -19,7 +19,7 @@ const getOne = async (req: Request, res: Response) => {
 		throw new UnauthorizedError(403, "Forbidden");
 	}
 
-	res.send(response);
+	res.json(response);
 };
 
 const getAll = async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ const getAll = async (req: Request, res: Response) => {
 		include: { tasks: true },
 	});
 
-	res.send(response);
+	res.json(response);
 };
 
 const postOne = async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ const postOne = async (req: Request, res: Response) => {
 		data: { title, priority, userId },
 	});
 
-	res.send(response);
+	res.json(response);
 };
 
 const putOne = async (req: Request, res: Response) => {
@@ -65,7 +65,7 @@ const putOne = async (req: Request, res: Response) => {
 		data: { ...updatedBoard },
 	});
 
-	res.send(response);
+	res.json(response);
 };
 
 const deleteOne = async (req: Request, res: Response) => {
@@ -84,7 +84,7 @@ const deleteOne = async (req: Request, res: Response) => {
 
 	const response = await prisma.board.delete({ where: { id: boardId } });
 
-	return res.send(response);
+	return res.json(response);
 };
 
 const batchUpdate = async (req: Request, res: Response) => {
