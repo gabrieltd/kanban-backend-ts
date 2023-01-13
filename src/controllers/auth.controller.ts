@@ -12,7 +12,7 @@ import {
 } from "../utils/jwt";
 import ValidationError from "../errors/ValidationError";
 import UnauthorizedError from "../errors/UnauthorizedError";
-import { generateImage } from "../lib/generateImage";
+import { generateImage } from "../helpers/generateImage";
 
 const register = async (req: Request, res: Response) => {
 	const { email, password } = req.body;

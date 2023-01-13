@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
 import NotFoundError from "../errors/NotFoundError";
-import { checkOwnership } from "../lib/checkOwnership";
+import { checkOwnership } from "../helpers/checkOwnership";
 import UnauthorizedError from "../errors/UnauthorizedError";
 import { Task, Board } from "@prisma/client";
 

@@ -11,7 +11,7 @@ import errorHandler from "../middlewares/globalErrorHandler";
 import "express-async-errors";
 import logger from "../utils/logger";
 import { checkDatabaseConnection } from "../utils/prisma";
-import { corsOptions } from "../lib/corsOptions";
+import { corsOptions } from "../helpers/corsOptions";
 
 class Server {
 	private app: Application;

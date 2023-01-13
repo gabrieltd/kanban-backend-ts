@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
 import NotFoundError from "../errors/NotFoundError";
-import { checkOwnership } from "../lib/checkOwnership";
+import { checkOwnership } from "../helpers/checkOwnership";
 import UnauthorizedError from "../errors/UnauthorizedError";
-import { generateImage } from "../lib/generateImage";
+import { generateImage } from "../helpers/generateImage";
 import DuplicationError from "../errors/DuplicationError";
 
 const getOne = async (req: Request, res: Response) => {
