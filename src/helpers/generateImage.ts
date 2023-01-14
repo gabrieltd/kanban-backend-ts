@@ -1,3 +1,6 @@
 export const generateImage = (username: string): string => {
-	return `https://avatars.dicebear.com/api/croodles-neutral/${username}.svg`;
+	const firstLetter = username.split("-")[0][0];
+	const secondLetter = username.split("-")[1][0];
+
+	return `https://api.dicebear.com/5.x/initials/svg?seed=${firstLetter}${secondLetter}-${username}`;
 };
