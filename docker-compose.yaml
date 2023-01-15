@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+    db:
+        image: postgres:13
+        restart: always
+        container_name: dev-kanban
+        ports:
+            - "5433:5432"
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: dev
+        volumes:
+            - app-volume:/var/lib/postgresql/data
+
+    db-test:
+        image: postgres:13
+        restart: always
+        container_name: test-kanban
+        ports:
+            - "5434:5432"
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: test
+volumes:
+    app-volume:

@@ -5,9 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node src/app.js",
+		"migrate:postgres": "dotenv -e .env.dev -- npx prisma migrate dev --name postgres-init",
 		"build": "tsc",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "ts-node-dev --respawn --transpile-only --exit-child --watch --files src/app.ts"
+		"test": "dotenv -e .env.test",
+		"dev": "dotenv -e .env.dev -- ts-node-dev --respawn --transpile-only --exit-child --watch --files src/app.ts"
 	},
 	"keywords": [],
 	"author": "",
