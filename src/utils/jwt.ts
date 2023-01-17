@@ -7,11 +7,12 @@ import UnauthorizedError from "../errors/UnauthorizedError";
 // const JWT_SECRET = process.env.JWT_SECRET || "secret";
 const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const ACCESS_TOKEN_EXP = process.env.ACCESS_TOKEN_EXP || "30m";
 
 export const generateAccessToken = (id: string) => {
 	const payload = { id };
 	const jwt = sign({ payload }, ACCESS_SECRET!, {
-		expiresIn: "30m",
+		expiresIn: ACCESS_TOKEN_EXP,
 	});
 	return jwt;
 };
@@ -19,7 +20,7 @@ export const generateAccessToken = (id: string) => {
 export const generateRefreshToken = (id: string) => {
 	const payload = { id };
 	const jwt = sign({ payload }, REFRESH_SECRET!, {
-		expiresIn: "365d",
+		expiresIn: "180d",
 	});
 	return jwt;
 };
