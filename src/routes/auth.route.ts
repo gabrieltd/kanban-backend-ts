@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import * as controller from "../controllers/auth.controller";
-import * as schema from "../schemas/auth.schema";
+import * as schema from "../validators/auth.schema";
 
 import schemaValidator from "../middlewares/schemaValidator";
 import { validateJWT } from "../middlewares/validateJWT";

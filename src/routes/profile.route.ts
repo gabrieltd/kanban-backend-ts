@@ -8,7 +8,7 @@ import * as controller from "../controllers/profile.controller";
 import {
 	getProfileSchema,
 	updateProfileSchema,
-} from "../schemas/profile.schema";
+} from "../validators/profile.schema";
 
 const router = Router();
 

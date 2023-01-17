@@ -2,14 +2,15 @@ import { number, object, string, z } from "zod";
 
 export const createBoardSchema = object({
 	body: object({
-		title: string().min(1),
+		title: string().min(1).max(20),
 		priority: number().min(0),
+		projectId: string().min(1),
 	}),
 });
 
 export const updateBoardSchema = object({
 	body: object({
-		title: string().min(1).optional(),
+		title: string().min(1).max(20).optional(),
 		priority: number().min(0).optional(),
 	}),
 	params: object({

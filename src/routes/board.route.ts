@@ -4,7 +4,7 @@ import schemaValidator from "../middlewares/schemaValidator";
 import { validateJWT } from "../middlewares/validateJWT";
 
 import * as controller from "../controllers/board.controller";
-import * as schema from "../schemas/board.schema";
+import * as schema from "../validators/board.schema";
 
 const router = Router();
 
