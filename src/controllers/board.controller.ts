@@ -34,11 +34,23 @@ const getAll = async (req: Request, res: Response) => {
 };
 
 const postOne = async (req: Request, res: Response) => {
-	const { title, priority } = req.body;
+	const { title, priority, projectId } = req.body;
 	const userId = req.user.id;
 
+	const project = await prisma.project.findUnique({
+		where: { id: projectId },
+	});
+
+	if (!project) {
+		throw new NotFoundError("Project not found");
+	}
+
+	if (!checkOwnership(userId, project.userId)) {
+		throw new UnauthorizedError(403, "Forbidden");
+	}
+
 	const response = await prisma.board.create({
-		data: { title, priority, userId },
+		data: { projectId, title, priority, userId },
 	});
 
 	res.json(response);
@@ -95,7 +107,7 @@ const batchUpdate = async (req: Request, res: Response) => {
 			throw new UnauthorizedError(403, "Forbidden");
 		}
 
-		await prisma.board.update({
+		const data = await prisma.board.update({
 			where: { id: b.id },
 			data: { priority: b.priority },
 		});

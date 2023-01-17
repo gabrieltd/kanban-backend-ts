@@ -4,6 +4,7 @@ import authRoutes from "../routes/auth.route";
 import profileRoutes from "../routes/profile.route";
 import boardRoutes from "../routes/board.route";
 import taskRoutes from "../routes/task.route";
+import projectRoutes from "../routes/project.route";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -21,6 +22,7 @@ class Server {
 		boards: "/api/boards",
 		tasks: "/api/tasks",
 		profile: "/api/profile",
+		project: "/api/projects",
 	};
 
 	constructor() {
@@ -44,6 +46,7 @@ class Server {
 		this.app.use(this.apiPaths.boards, boardRoutes);
 		this.app.use(this.apiPaths.tasks, taskRoutes);
 		this.app.use(this.apiPaths.auth, authRoutes);
+		this.app.use(this.apiPaths.project, projectRoutes);
 		this.app.use(this.apiPaths.profile, profileRoutes);
 		this.app.use("*", errorHandler);
 	}
