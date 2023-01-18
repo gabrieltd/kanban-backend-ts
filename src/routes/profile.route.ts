@@ -12,11 +12,14 @@ import {
 
 const router = Router();
 
+router.get("/", [validateJWT], controller.getAll);
+
 router.get(
 	"/:userId",
 	[validateJWT, schemaValidator(getProfileSchema)],
 	controller.getOne
 );
+
 router.put(
 	"/:userId",
 	[validateJWT, schemaValidator(updateProfileSchema)],

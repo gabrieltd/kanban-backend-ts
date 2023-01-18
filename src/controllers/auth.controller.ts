@@ -79,7 +79,6 @@ const login = async (req: Request, res: Response) => {
 	res.cookie("rtoken", refreshToken, {
 		httpOnly: true,
 
-		// TODO: CAMBIAR EN PROD
 		secure: true,
 		sameSite: "none",
 		maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -137,7 +136,6 @@ const logout = (req: Request, res: Response) => {
 		res.status(204).json({ ok: true });
 	}
 
-	// TODO: CAMBIAR EN PROD
 	res.clearCookie("rtoken", {
 		httpOnly: true,
 		secure: true,

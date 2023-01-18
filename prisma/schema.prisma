@@ -15,17 +15,30 @@ model User {
     image    String?
     bio      String?
 
-    boards Project[]
+    projects Project[]
+    member   Membership[]
 }
 
 model Project {
-    id          String @id @default(uuid())
-    title       String @unique
+    id          String       @id @default(uuid())
+    title       String       @unique
     description String
-    user        User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user        User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     userId      String
+    createdAt   DateTime     @default(now())
+    boards      Board[]
+    members     Membership[]
+}
 
-    boards Board[]
+model Membership {
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    projectId String
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    userId    String
+    canWrite  Boolean @default(true)
+    pending   Boolean @default(true)
+
+    @@id([projectId, userId])
 }
 
 model Board {

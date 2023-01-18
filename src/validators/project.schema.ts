@@ -1,9 +1,18 @@
-import { object, string, z } from "zod";
+import { array, boolean, object, record, string, z } from "zod";
 
 export const createProjectSchema = object({
 	body: object({
-		title: string().min(3).max(25),
-		description: string().min(1).max(80),
+		project: object({
+			title: string(),
+			description: string(),
+		}),
+
+		members: array(
+			object({
+				id: string(),
+				pending: boolean(),
+			})
+		),
 	}),
 });
 

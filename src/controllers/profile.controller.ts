@@ -22,6 +22,20 @@ const getOne = async (req: Request, res: Response) => {
 	res.json(user);
 };
 
+const getAll = async (req: Request, res: Response) => {
+	const { q = "" } = req.query;
+
+	const users = await prisma.user.findMany({
+		where: { username: { contains: q as string } },
+	});
+
+	const response = users.map((u) => {
+		return { id: u.id, username: u.username, bio: u.bio, image: u.image };
+	});
+
+	res.json(response);
+};
+
 const putOne = async (req: Request, res: Response) => {
 	const { userId } = req.params;
 	const { username, bio } = req.body;
@@ -54,4 +68,4 @@ const putOne = async (req: Request, res: Response) => {
 	});
 };
 
-export { getOne, putOne };
+export { getOne, getAll, putOne };
