@@ -1,4 +1,4 @@
-import { number, object, string } from "zod";
+import { number, object, string, z } from "zod";
 
 export const createTaskSchema = object({
 	body: object({
@@ -32,3 +32,6 @@ export const deleteTaskSchema = object({
 		taskId: string().min(1),
 	}),
 });
+
+export type CreateTaskInput = z.infer<typeof createTaskSchema>["body"];
+export type UpdateTaskInput = z.infer<typeof updateTaskSchema>["body"];

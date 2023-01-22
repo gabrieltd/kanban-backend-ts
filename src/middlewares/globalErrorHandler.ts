@@ -7,10 +7,10 @@ const errorHandler = (
 	err: Error,
 	_req: Request,
 	res: Response,
-	next: NextFunction
+	next: NextFunction // eslint-disable-line
 ) => {
 	logger.error(err.message);
-	const status: boolean = false;
+	const status = false;
 
 	if (err instanceof CustomError) {
 		return res.status(err.errorCode).json({

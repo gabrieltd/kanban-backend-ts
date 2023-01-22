@@ -1,71 +1,33 @@
 import { Request, Response } from "express";
-import prisma from "../utils/prisma";
-import NotFoundError from "../errors/NotFoundError";
-import { checkOwnership } from "../helpers/checkOwnership";
-import UnauthorizedError from "../errors/UnauthorizedError";
-import { generateImage } from "../helpers/generateImage";
-import DuplicationError from "../errors/DuplicationError";
 
-const getOne = async (req: Request, res: Response) => {
+import * as service from "../services/profile.service";
+
+export const getOne = async (req: Request, res: Response) => {
 	const { userId } = req.params;
+	const userIdToken = req.user.id;
 
-	const user = await prisma.user.findUnique({ where: { id: userId } });
-
-	if (!user) {
-		throw new NotFoundError("User not found");
-	}
-
-	if (!checkOwnership(req.user.id, user.id)) {
-		throw new UnauthorizedError(403, "Forbidden");
-	}
-
-	res.json(user);
+	const response = await service.findProfile(userId, userIdToken);
+	res.json(response);
 };
 
-const getAll = async (req: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response) => {
 	const { q = "" } = req.query;
 
-	const users = await prisma.user.findMany({
-		where: { username: { contains: q as string } },
-	});
-
-	const response = users.map((u) => {
-		return { id: u.id, username: u.username, bio: u.bio, image: u.image };
-	});
+	const response = await service.findProfiles(q as string);
 
 	res.json(response);
 };
 
-const putOne = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response) => {
 	const { userId } = req.params;
 	const { username, bio } = req.body;
 
-	const usernameExist = await prisma.user.findUnique({
-		where: { username: username },
-	});
+	const response = await service.updateProfile(
+		username,
+		bio,
+		userId,
+		req.user.id
+	);
 
-	if (usernameExist && usernameExist.id !== userId) {
-		throw new DuplicationError("Username already taken");
-	}
-
-	if (!checkOwnership(req.user.id, userId)) {
-		throw new UnauthorizedError(403, "Forbidden");
-	}
-
-	const image = generateImage(username);
-
-	const updated = await prisma.user.update({
-		where: { id: userId },
-		data: { username, bio, image },
-	});
-
-	res.json({
-		id: updated.id,
-		email: updated.email,
-		username: updated.username,
-		image: updated.image,
-		bio: updated.bio,
-	});
+	res.json(response);
 };
-
-export { getOne, getAll, putOne };

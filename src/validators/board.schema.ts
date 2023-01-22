@@ -4,7 +4,6 @@ export const createBoardSchema = object({
 	body: object({
 		title: string().min(1).max(20),
 		priority: number().min(0),
-		projectId: string().min(1),
 	}),
 });
 
@@ -14,6 +13,7 @@ export const updateBoardSchema = object({
 		priority: number().min(0).optional(),
 	}),
 	params: object({
+		projectId: string().min(1),
 		boardId: string().min(1),
 	}),
 });
@@ -29,3 +29,6 @@ export const deleteBoardSchema = object({
 		boardId: string().min(1),
 	}),
 });
+
+export type createBoardInput = z.infer<typeof createBoardSchema>["body"];
+export type updateBoardInput = z.infer<typeof updateBoardSchema>["body"];

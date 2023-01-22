@@ -4,24 +4,25 @@ import * as controller from "../controllers/auth.controller";
 import * as schema from "../validators/auth.schema";
 
 import schemaValidator from "../middlewares/schemaValidator";
-import { validateJWT } from "../middlewares/validateJWT";
 
 const router = Router();
 
+const path = "/auth";
+
 router.post(
-	"/register",
+	`${path}/register`,
 	[schemaValidator(schema.registerUserSchema)],
 	controller.register
 );
 
 router.post(
-	"/login",
+	`${path}/login`,
 	[schemaValidator(schema.loginUserSchema)],
 	controller.login
 );
 
-router.get("/refresh", controller.refresh);
+router.get(`${path}/refresh`, controller.refresh);
 
-router.get("/logout", controller.logout);
+router.get(`${path}/logout`, controller.logout);
 
 export default router;

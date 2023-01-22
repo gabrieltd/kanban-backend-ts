@@ -1,4 +1,4 @@
-import { number, object, string, z } from "zod";
+import { object, string } from "zod";
 
 export const updateProfileSchema = object({
 	body: object({

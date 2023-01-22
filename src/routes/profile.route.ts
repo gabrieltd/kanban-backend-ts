@@ -12,18 +12,20 @@ import {
 
 const router = Router();
 
-router.get("/", [validateJWT], controller.getAll);
+const path = "/profile";
+
+router.get(`${path}/`, [validateJWT], controller.getAll);
 
 router.get(
-	"/:userId",
+	`${path}/:userId`,
 	[validateJWT, schemaValidator(getProfileSchema)],
 	controller.getOne
 );
 
 router.put(
-	"/:userId",
+	`${path}/:userId`,
 	[validateJWT, schemaValidator(updateProfileSchema)],
-	controller.putOne
+	controller.update
 );
 
 export default router;

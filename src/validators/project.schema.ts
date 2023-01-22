@@ -1,4 +1,4 @@
-import { array, boolean, object, record, string, z } from "zod";
+import { array, boolean, object, string } from "zod";
 
 export const createProjectSchema = object({
 	body: object({
@@ -10,6 +10,7 @@ export const createProjectSchema = object({
 		members: array(
 			object({
 				id: string(),
+				admin: boolean().optional(),
 				pending: boolean(),
 			})
 		),
@@ -18,8 +19,18 @@ export const createProjectSchema = object({
 
 export const updateProjectSchema = object({
 	body: object({
-		title: string().min(3).max(25).optional(),
-		description: string().min(1).max(80).optional(),
+		project: object({
+			title: string(),
+			description: string(),
+		}),
+
+		members: array(
+			object({
+				id: string(),
+				admin: boolean().optional(),
+				pending: boolean(),
+			})
+		),
 	}),
 	params: object({
 		projectId: string().min(1),

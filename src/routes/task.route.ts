@@ -5,35 +5,58 @@ import { validateJWT } from "../middlewares/validateJWT";
 
 import * as controller from "../controllers/task.controller";
 import * as schema from "../validators/task.schema";
+import { authorizeProjectAccess } from "../middlewares/authorizeResourceAccess";
 
 const router = Router();
 
-router.get("/", [validateJWT], controller.getAll);
+const path = "/projects/:projectId/boards/:boardId/tasks";
+
+router.get("/", [validateJWT, authorizeProjectAccess], controller.getAll);
 
 router.get(
-	"/:taskId",
-	[schemaValidator(schema.getTaskSchema), validateJWT],
+	`${path}/:taskId`,
+	[
+		schemaValidator(schema.getTaskSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
 	controller.getOne
 );
 
 router.post(
-	"/",
-	[schemaValidator(schema.createTaskSchema), validateJWT],
-	controller.postOne
+	`${path}/`,
+	[
+		schemaValidator(schema.createTaskSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
+	controller.save
 );
 
-router.put("/batch", [validateJWT], controller.batchUpdate);
+router.put(
+	`${path}/batch`,
+	[validateJWT, authorizeProjectAccess],
+	controller.batchUpdate
+);
 
 router.put(
-	"/:taskId",
-	[schemaValidator(schema.updateTaskSchema), validateJWT],
-	controller.putOne
+	`${path}/:taskId`,
+	[
+		schemaValidator(schema.updateTaskSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
+	controller.update
 );
 
 router.delete(
-	"/:taskId",
-	[schemaValidator(schema.deleteTaskSchema), validateJWT],
-	controller.deleteOne
+	`${path}/:taskId`,
+	[
+		schemaValidator(schema.deleteTaskSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
+	controller.destroy
 );
 
 export default router;

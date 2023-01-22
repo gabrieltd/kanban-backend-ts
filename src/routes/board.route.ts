@@ -5,35 +5,62 @@ import { validateJWT } from "../middlewares/validateJWT";
 
 import * as controller from "../controllers/board.controller";
 import * as schema from "../validators/board.schema";
+import { authorizeProjectAccess } from "../middlewares/authorizeResourceAccess";
 
 const router = Router();
 
-router.get("/", [validateJWT], controller.getAll);
+const path = "/projects/:projectId/boards";
 
 router.get(
-	"/:boardId",
-	[schemaValidator(schema.getBoardSchema), validateJWT],
+	`${path}/`,
+	[validateJWT, authorizeProjectAccess],
+	controller.getAll
+);
+
+router.get(
+	`${path}/:boardId`,
+	[
+		schemaValidator(schema.getBoardSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
 	controller.getOne
 );
 
 router.post(
-	"/",
-	[schemaValidator(schema.createBoardSchema), validateJWT],
-	controller.postOne
+	`${path}/`,
+	[
+		schemaValidator(schema.createBoardSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
+	controller.save
 );
 
-router.put("/batch", [validateJWT], controller.batchUpdate);
+router.put(
+	`${path}/batch`,
+	[validateJWT, authorizeProjectAccess],
+	controller.batch
+);
 
 router.put(
-	"/:boardId",
-	[schemaValidator(schema.updateBoardSchema), validateJWT],
-	controller.putOne
+	`${path}/:boardId`,
+	[
+		schemaValidator(schema.updateBoardSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
+	controller.update
 );
 
 router.delete(
-	"/:boardId",
-	[schemaValidator(schema.deleteBoardSchema), validateJWT],
-	controller.deleteOne
+	`${path}/:boardId`,
+	[
+		schemaValidator(schema.deleteBoardSchema),
+		validateJWT,
+		authorizeProjectAccess,
+	],
+	controller.destroy
 );
 
 export default router;

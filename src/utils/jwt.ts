@@ -1,7 +1,5 @@
-import { JwtPayload, sign, verify } from "jsonwebtoken";
-import ValidationError from "../errors/ValidationError";
+import { sign, verify } from "jsonwebtoken";
 import { Token } from "../types/custom/Token";
-import log from "./logger";
 import UnauthorizedError from "../errors/UnauthorizedError";
 
 // const JWT_SECRET = process.env.JWT_SECRET || "secret";

@@ -17,13 +17,7 @@ import { corsOptions } from "../helpers/corsOptions";
 class Server {
 	private app: Application;
 	private port: string;
-	private apiPaths = {
-		auth: "/api/auth",
-		boards: "/api/boards",
-		tasks: "/api/tasks",
-		profile: "/api/profile",
-		project: "/api/projects",
-	};
+	private apiPath = "/api";
 
 	constructor() {
 		this.app = express();
@@ -43,11 +37,11 @@ class Server {
 	}
 
 	routes() {
-		this.app.use(this.apiPaths.boards, boardRoutes);
-		this.app.use(this.apiPaths.tasks, taskRoutes);
-		this.app.use(this.apiPaths.auth, authRoutes);
-		this.app.use(this.apiPaths.project, projectRoutes);
-		this.app.use(this.apiPaths.profile, profileRoutes);
+		this.app.use(this.apiPath, boardRoutes);
+		this.app.use(this.apiPath, taskRoutes);
+		this.app.use(this.apiPath, authRoutes);
+		this.app.use(this.apiPath, projectRoutes);
+		this.app.use(this.apiPath, profileRoutes);
 		this.app.use("*", errorHandler);
 	}
 
