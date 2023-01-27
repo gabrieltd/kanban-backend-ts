@@ -1,5 +1,6 @@
 import express, { Application } from "express";
-
+import * as http from "http";
+import * as socketio from "socket.io";
 import authRoutes from "../routes/auth.route";
 import profileRoutes from "../routes/profile.route";
 import boardRoutes from "../routes/board.route";
@@ -13,20 +14,29 @@ import "express-async-errors";
 import logger from "../utils/logger";
 import { checkDatabaseConnection } from "../utils/prisma";
 import { corsOptions } from "../helpers/corsOptions";
+import Sockets from "./sockets";
+import path from "path";
 
 class Server {
 	private app: Application;
 	private port: string;
 	private apiPath = "/api";
+	private io: socketio.Server;
+	private server: http.Server;
 
 	constructor() {
 		this.app = express();
 		this.port = process.env.PORT || "3005";
 
-		this.middlewares();
-		this.routes();
-
 		checkDatabaseConnection();
+
+		this.server = http.createServer(this.app);
+
+		this.io = new socketio.Server(this.server, { cors: corsOptions });
+	}
+
+	socketsConfig() {
+		new Sockets(this.io);
 	}
 
 	middlewares() {
@@ -45,9 +55,14 @@ class Server {
 		this.app.use("*", errorHandler);
 	}
 
-	listen() {
-		this.app.listen(this.port, () => {
-			logger.info(`Servidor iniciado en puerto ${this.port}`);
+	run() {
+		this.middlewares();
+		this.routes();
+
+		this.socketsConfig();
+
+		this.server.listen(this.port, () => {
+			logger.info(`Server started on port ${this.port}`);
 		});
 	}
 }
