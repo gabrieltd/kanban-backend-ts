@@ -34,9 +34,9 @@ router.post(
 );
 
 router.put(
-	`${path}/batch`,
+	`${path}/`,
 	[validateJWT, authorizeProjectAccess],
-	controller.batchUpdate
+	controller.updateMany
 );
 
 router.put(

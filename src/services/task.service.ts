@@ -73,12 +73,12 @@ export const deleteTask = async (taskId: string): Promise<Task> => {
 	return taskDeleted;
 };
 
-export const updateTasksPriority = async (tasks: Task[]): Promise<Task[]> => {
+export const updateTasks = async (tasks: Task[]): Promise<Task[]> => {
 	const tasksUpdated = await prisma.$transaction(
 		tasks.map((t) =>
 			prisma.task.update({
 				where: { id: t.id },
-				data: { priority: t.priority },
+				data: { ...t },
 			})
 		)
 	);

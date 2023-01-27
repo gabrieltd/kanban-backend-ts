@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { rmSync } from "fs";
 import * as service from "../services/task.service";
 
 export const getOne = async (req: Request, res: Response) => {
@@ -42,10 +41,10 @@ export const destroy = async (req: Request, res: Response) => {
 	res.json(response);
 };
 
-export const batchUpdate = async (req: Request, res: Response) => {
+export const updateMany = async (req: Request, res: Response) => {
 	const { tasks } = req.body;
 
-	const response = await service.updateTasksPriority(tasks);
+	const response = await service.updateTasks(tasks);
 
 	res.json(response);
 };
