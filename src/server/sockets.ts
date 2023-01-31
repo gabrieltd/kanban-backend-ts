@@ -29,7 +29,7 @@ class Sockets {
 			});
 
 			socket.on("board-update", ({ projectId, ...content }) => {
-				this.io.to(projectId).emit("board-update", content);
+				socket.broadcast.to(projectId).emit("board-update", content);
 			});
 		});
 	}
