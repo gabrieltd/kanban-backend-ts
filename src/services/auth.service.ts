@@ -9,8 +9,8 @@ import {
 	verifyToken,
 } from "../utils/jwt";
 import ValidationError from "../errors/ValidationError";
-import { response } from "express";
 import UnauthorizedError from "../errors/UnauthorizedError";
+import NotFoundError from "../errors/NotFoundError";
 
 export const createUser = async (email: string, password: string) => {
 	const user = await prisma.user.findUnique({
@@ -110,4 +110,22 @@ export const refreshUserSession = async (refreshToken: string) => {
 	};
 
 	return response;
+};
+
+export const checkProjectMembership = async (
+	userId: string,
+	projectId: string
+): Promise<any> => {
+	const project = await prisma.project.findUnique({
+		where: { id: projectId },
+		include: { members: true },
+	});
+
+	if (!project) {
+		throw new NotFoundError("Project not found");
+	}
+
+	if (!project.members.some((m) => m.userId === userId)) {
+		throw new UnauthorizedError(403, "Forbidden");
+	}
 };

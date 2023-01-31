@@ -1,6 +1,6 @@
 import prisma from "../utils/prisma";
 import NotFoundError from "../errors/NotFoundError";
-import { Board, Prisma } from "@prisma/client";
+import { Board } from "@prisma/client";
 import { createBoardInput, updateBoardInput } from "../validators/board.schema";
 
 export const findByBoardId = async (boardId: string): Promise<Board> => {
@@ -44,6 +44,7 @@ export const createBoard = async (
 
 	const boardCreated = await prisma.board.create({
 		data: { ...board, projectId },
+		include: { tasks: true },
 	});
 
 	return boardCreated;
@@ -76,7 +77,10 @@ export const deleteBoard = async (boardId: string): Promise<Board> => {
 		throw new NotFoundError("Board not found");
 	}
 
-	const boardDeleted = await prisma.board.delete({ where: { id: boardId } });
+	const boardDeleted = await prisma.board.delete({
+		where: { id: boardId },
+		include: { tasks: true },
+	});
 
 	return boardDeleted;
 };
@@ -89,6 +93,7 @@ export const updateBoardsPriority = async (
 			prisma.board.update({
 				where: { id: b.id },
 				data: { priority: b.priority },
+				include: { tasks: true },
 			})
 		)
 	);

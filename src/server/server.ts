@@ -15,15 +15,16 @@ import logger from "../utils/logger";
 import { checkDatabaseConnection } from "../utils/prisma";
 import { corsOptions } from "../helpers/corsOptions";
 import Sockets from "./sockets";
-import path from "path";
 
 class Server {
+	private static instance: Server;
+
 	private app: Application;
 	private port: string;
 	private apiPath = "/api";
 	private io: socketio.Server;
 	private server: http.Server;
-
+	public socket: Sockets;
 	constructor() {
 		this.app = express();
 		this.port = process.env.PORT || "3005";
@@ -33,11 +34,17 @@ class Server {
 		this.server = http.createServer(this.app);
 
 		this.io = new socketio.Server(this.server, { cors: corsOptions });
+		this.socket = new Sockets(this.io);
 	}
 
-	socketsConfig() {
-		new Sockets(this.io);
+	static getInstance(): Server {
+		if (!Server.instance) {
+			Server.instance = new Server();
+		}
+		return Server.instance;
 	}
+
+	// socketsConfig() {}
 
 	middlewares() {
 		this.app.use(cors(corsOptions));
@@ -59,7 +66,7 @@ class Server {
 		this.middlewares();
 		this.routes();
 
-		this.socketsConfig();
+		// this.socketsConfig();
 
 		this.server.listen(this.port, () => {
 			logger.info(`Server started on port ${this.port}`);
