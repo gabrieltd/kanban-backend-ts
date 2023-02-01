@@ -15,6 +15,7 @@ import logger from "../utils/logger";
 import { checkDatabaseConnection } from "../utils/prisma";
 import { corsOptions } from "../helpers/corsOptions";
 import Sockets from "./sockets";
+import { Response } from "express";
 
 class Server {
 	private static instance: Server;
@@ -54,11 +55,18 @@ class Server {
 	}
 
 	routes() {
+		//* Health check route
+
+		this.app.use(`${this.apiPath}/health`, (_, res: Response) => {
+			res.status(200).json("ok");
+		});
+
 		this.app.use(this.apiPath, boardRoutes);
 		this.app.use(this.apiPath, taskRoutes);
 		this.app.use(this.apiPath, authRoutes);
 		this.app.use(this.apiPath, projectRoutes);
 		this.app.use(this.apiPath, profileRoutes);
+
 		this.app.use("*", errorHandler);
 	}
 
